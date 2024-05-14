@@ -1,0 +1,4 @@
+anyio
+httpx
+polars
+structlog
