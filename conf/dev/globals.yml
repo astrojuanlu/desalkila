@@ -1,0 +1,4 @@
+delta_storage_options:
+  AWS_ALLOW_HTTP: 'true'
+  AWS_EC2_METADATA_DISABLED: 'true'
+  AWS_S3_ALLOW_UNSAFE_RENAME: 'true'

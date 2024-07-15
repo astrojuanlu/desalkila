@@ -5,11 +5,14 @@ build-backend = "pdm.backend"
 [project]
 name = "desalkila"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 license = {file = "LICENSE"}
 description = "(TBC)"
 dependencies = [
-    # "structlog",
+    "deltalake",
+    "kedro>=0.19.6",
+    "kedro-datasets[polars]>=3.0.1",
+    "polars",
 ]
 authors = [
     {name = "Juan Luis Cano Rodríguez", email = "hello@juanlu.space"}
@@ -104,3 +107,8 @@ disallow_untyped_defs = true
 testpaths = [
     "tests",
 ]
+
+[tool.kedro]
+project_name = "desalkila"
+package_name = "desalkila"
+kedro_init_version = "0.19.6"

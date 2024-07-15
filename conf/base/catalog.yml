@@ -1,0 +1,31 @@
+_callejeros_merge_save_args:
+  mode: overwrite
+  # merge_predicate: "s.COD_NDP = t.COD_NDP"
+
+callejero_vigente_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.madrid.es/egob/catalogo/213605-3-callejero-oficial-madrid.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+
+callejero_vigente_raw:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://callejero/bronze/callejero_vigente_raw
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_callejeros_merge_save_args}
+
+callejero_historico_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.madrid.es/egob/catalogo/213605-5-callejero-oficial-madrid.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+
+callejero_historico_raw:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://callejero/bronze/callejero_historico_raw
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_callejeros_merge_save_args}
