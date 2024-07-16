@@ -30,6 +30,13 @@ callejero_historico_raw:
   storage_options: ${globals:delta_storage_options}
   save_args: ${_callejeros_merge_save_args}
 
+callejero:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://callejero/silver/callejero
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_callejeros_merge_save_args}
+
 barrios_source:
   type: desalkila.datasets.SimplePolarsCSVDataset
   filepath: https://datos.madrid.es/egob/catalogo/300496-11326700-barrios-madrid.csv
