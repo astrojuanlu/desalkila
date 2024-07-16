@@ -29,3 +29,18 @@ callejero_historico_raw:
   credentials: delta_lake
   storage_options: ${globals:delta_storage_options}
   save_args: ${_callejeros_merge_save_args}
+
+barrios_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.madrid.es/egob/catalogo/300496-11326700-barrios-madrid.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+
+barrios:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://barrios/barrios
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
