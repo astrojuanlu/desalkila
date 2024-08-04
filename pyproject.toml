@@ -58,7 +58,7 @@ select = [
     "F",  # Pyflakes
     "E",  # Pycodestyle
     "W",  # Pycodestyle
-    "D",  # Pydocstyle
+    # "D",  # Pydocstyle
     "UP",  # pyupgrade
     "I",  # isort
     "PL",  # Pylint
