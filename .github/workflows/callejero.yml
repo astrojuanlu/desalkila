@@ -8,6 +8,8 @@ on:
 jobs:
   update-callejero:
     runs-on: ubuntu-latest
+    environment: prod
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
