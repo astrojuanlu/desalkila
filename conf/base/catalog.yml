@@ -1,6 +1,6 @@
 _callejeros_merge_save_args:
   mode: overwrite
-  # merge_predicate: "s.COD_NDP = t.COD_NDP"
+  merge_predicate: "s.COD_NDP = t.COD_NDP"
 
 callejero_vigente_source:
   type: desalkila.datasets.SimplePolarsCSVDataset
