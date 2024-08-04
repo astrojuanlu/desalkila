@@ -38,11 +38,8 @@ callejero:
   save_args: ${_callejeros_merge_save_args}
 
 barrios_source:
-  type: desalkila.datasets.SimplePolarsCSVDataset
-  filepath: https://datos.madrid.es/egob/catalogo/300496-11326700-barrios-madrid.csv
-  load_args:
-    separator: ";"
-    encoding: latin-1
+  type: desalkila.datasets.GeoPandasGenericDataset
+  filepath: https://datos.madrid.es/egob/catalogo/300496-11325346-barrios-madrid.zip
 
 barrios:
   type: desalkila.datasets.PolarsDeltaDataset

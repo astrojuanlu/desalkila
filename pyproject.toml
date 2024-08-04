@@ -10,6 +10,7 @@ license = {file = "LICENSE"}
 description = "(TBC)"
 dependencies = [
     "deltalake",
+    "geopandas>=1.0",
     "kedro>=0.19.6",
     "kedro-datasets[polars]>=3.0.1",
     "polars",
