@@ -63,6 +63,9 @@ select = [
     "I",  # isort
     "PL",  # Pylint
 ]
+ignore = [
+    "PLR0913",  # Too many arguments in function definition
+]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*" = ["D", "PLR2004"]
