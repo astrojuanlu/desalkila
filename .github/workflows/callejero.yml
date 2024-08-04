@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-python-command:
+  update-callejero:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
