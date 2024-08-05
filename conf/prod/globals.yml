@@ -1,2 +1,3 @@
 delta_storage_options:
   AWS_S3_ALLOW_UNSAFE_RENAME: 'true'
+  AWS_REGION: fr-par
