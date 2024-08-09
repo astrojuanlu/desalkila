@@ -2,6 +2,9 @@ _callejeros_merge_save_args:
   mode: overwrite
   # merge_predicate: "s.COD_NDP = t.COD_NDP"
 
+_registro_save_args:
+  mode: overwrite
+
 callejero_vigente_raw:
   type: desalkila.datasets.PolarsDeltaDataset
   filepath: s3://callejero/bronze/callejero_vigente_raw
@@ -30,3 +33,17 @@ barrios:
   storage_options: ${globals:delta_storage_options}
   save_args:
     mode: overwrite
+
+registro_cam_raw:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://registro-cam/bronze/registro_cam_raw
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_registro_save_args}
+
+registro_cam:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://registro-cam/silver/registro_cam
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_registro_save_args}

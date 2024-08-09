@@ -7,6 +7,7 @@ from .pipelines.el_callejero import (
     preprocess_callejero_historico,
     preprocess_callejero_vigente,
 )
+from .pipelines.el_registro_cam import fill_empty_addresses, preprocess_registro_cam
 
 
 def register_pipelines() -> dict[str, Pipeline]:
@@ -41,6 +42,15 @@ def register_pipelines() -> dict[str, Pipeline]:
                 )
             ]
         ),
+        "el_registro_cam": make_pipeline(
+            [
+                node(
+                    func=preprocess_registro_cam,
+                    inputs="registro_cam_source",
+                    outputs="registro_cam_raw",
+                )
+            ]
+        ),
         "consolidate_callejero": make_pipeline(
             [
                 node(
@@ -53,6 +63,15 @@ def register_pipelines() -> dict[str, Pipeline]:
                     inputs="callejero_joined",
                     outputs="callejero",
                 ),
+            ]
+        ),
+        "consolidate_registro_cam": make_pipeline(
+            [
+                node(
+                    func=fill_empty_addresses,
+                    inputs="registro_cam_raw",
+                    outputs="registro_cam",
+                )
             ]
         ),
     }
