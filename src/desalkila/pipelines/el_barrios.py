@@ -1,6 +1,10 @@
 import geopandas
 import polars as pl
 
+DISTRITO_REPLACEMENTS = {
+    "San Bals - Canillejas": "San Blas - Canillejas",
+}
+
 
 def preprocess_barrios(gdf: geopandas.GeoDataFrame) -> pl.DataFrame:
     gdf_filtered = gdf[["CODDIS", "NOMDIS", "COD_BAR", "NOMBRE", "geometry"]]
@@ -20,5 +24,12 @@ def preprocess_barrios(gdf: geopandas.GeoDataFrame) -> pl.DataFrame:
     )
 
     assert df["COD_BAR"].is_unique().all()
+
+    df = df.with_columns(pl.col("CODDIS").str.pad_start(2, "0"))
+
+    # Including a bit of data cleaning here, not worth creating another pipeline
+    df = df.with_columns(
+        pl.col("NOMDIS").replace(DISTRITO_REPLACEMENTS),
+    )
 
     return df
