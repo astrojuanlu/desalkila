@@ -2,7 +2,7 @@ from kedro.pipeline import Pipeline, node
 from kedro.pipeline import pipeline as make_pipeline
 
 from .pipelines.consolidate_callejero import fix_callejero, join_callejero
-from .pipelines.consolidate_registro_cam import fill_empty_addresses
+from .pipelines.consolidate_registro_cam import fill_empty_addresses, fix_addresses
 from .pipelines.el_barrios import preprocess_barrios
 from .pipelines.el_callejero import (
     preprocess_callejero_historico,
@@ -71,8 +71,13 @@ def register_pipelines() -> dict[str, Pipeline]:
                 node(
                     func=fill_empty_addresses,
                     inputs="registro_cam_raw",
+                    outputs="registro_cam_filled",
+                ),
+                node(
+                    func=fix_addresses,
+                    inputs="registro_cam_filled",
                     outputs="registro_cam",
-                )
+                ),
             ]
         ),
     }
