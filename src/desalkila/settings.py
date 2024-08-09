@@ -6,10 +6,12 @@ For further information, including these default values, see
 https://docs.kedro.org/en/stable/kedro_project_setup/settings.html.
 """
 
+import polars as pl
 from kedro.config import OmegaConfigLoader
 
 CONFIG_LOADER_CLASS = OmegaConfigLoader
 CONFIG_LOADER_ARGS = {
     "base_env": "base",
     "default_run_env": "dev",
+    "custom_resolvers": {"pl": lambda obj: getattr(pl, obj)},
 }

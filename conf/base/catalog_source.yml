@@ -22,3 +22,13 @@ barrios_source:
   metadata:
     source: https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=760e5eb0d73a7710VgnVCM2000001f4a900aRCRD 
 
+registro_cam_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.comunidad.madrid/catalogo/dataset/134210b4-3fbc-457d-8064-18d6d8cc785e/resource/fca9a0ef-60b3-44bc-8a69-c17d607b122d/download/alojamientos_turisticos.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+    schema_overrides:
+      numero: ${pl:Utf8}
+  metadata:
+    source: https://datos.comunidad.madrid/catalogo/dataset/alojamientos_turisticos
