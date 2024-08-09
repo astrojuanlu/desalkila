@@ -5,6 +5,9 @@ _callejeros_merge_save_args:
 _registro_save_args:
   mode: overwrite
 
+_vut_madrid_save_args:
+  mode: overwrite
+
 callejero_vigente_raw:
   type: desalkila.datasets.PolarsDeltaDataset
   filepath: s3://callejero/bronze/callejero_vigente_raw
@@ -47,3 +50,10 @@ registro_cam:
   credentials: delta_lake
   storage_options: ${globals:delta_storage_options}
   save_args: ${_registro_save_args}
+
+vut_madrid_raw:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://vut-madrid/bronze/vut_madrid_raw
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args: ${_vut_madrid_save_args}

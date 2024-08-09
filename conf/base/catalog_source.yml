@@ -32,3 +32,9 @@ registro_cam_source:
       numero: ${pl:Utf8}
   metadata:
     source: https://datos.comunidad.madrid/catalogo/dataset/alojamientos_turisticos
+
+vut_madrid_source:
+  type: desalkila.datasets.GeoPandasGenericDataset
+  filepath: https://geoportal.madrid.es/fsdescargas/IDEAM_WBGEOPORTAL/VIVIENDA/VIVIENDAS_TURISTICAS/VIVIENDAS_USO_TURISTICO.zip
+  metadata:
+    source: https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=efa31be4-1439-11ef-a86b-3024a94b329d

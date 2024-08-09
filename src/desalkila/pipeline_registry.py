@@ -9,6 +9,7 @@ from .pipelines.el_callejero import (
     preprocess_callejero_vigente,
 )
 from .pipelines.el_registro_cam import preprocess_registro_cam
+from .pipelines.el_vut_madrid import preprocess_vut_madrid
 
 
 def register_pipelines() -> dict[str, Pipeline]:
@@ -49,6 +50,15 @@ def register_pipelines() -> dict[str, Pipeline]:
                     func=preprocess_registro_cam,
                     inputs="registro_cam_source",
                     outputs="registro_cam_raw",
+                )
+            ]
+        ),
+        "el_vut_madrid": make_pipeline(
+            [
+                node(
+                    func=preprocess_vut_madrid,
+                    inputs="vut_madrid_source",
+                    outputs="vut_madrid_raw",
                 )
             ]
         ),
