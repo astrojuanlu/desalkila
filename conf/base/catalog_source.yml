@@ -1,0 +1,24 @@
+callejero_vigente_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.madrid.es/egob/catalogo/213605-3-callejero-oficial-madrid.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+  metadata:
+    source: https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=b3c41f3cf6a6c410VgnVCM2000000c205a0aRCRD 
+
+callejero_historico_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://datos.madrid.es/egob/catalogo/213605-5-callejero-oficial-madrid.csv
+  load_args:
+    separator: ";"
+    encoding: latin-1
+  metadata:
+    source: https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=b3c41f3cf6a6c410VgnVCM2000000c205a0aRCRD 
+
+barrios_source:
+  type: desalkila.datasets.GeoPandasGenericDataset
+  filepath: https://datos.madrid.es/egob/catalogo/300496-11325346-barrios-madrid.zip
+  metadata:
+    source: https://datos.madrid.es/portal/site/egob/menuitem.c05c1f754a33a9fbe4b2e4b284f1a5a0/?vgnextoid=760e5eb0d73a7710VgnVCM2000001f4a900aRCRD 
+
