@@ -10,6 +10,11 @@ from .pipelines.el_callejero import (
 )
 from .pipelines.el_registro_cam import preprocess_registro_cam
 from .pipelines.el_vut_madrid import preprocess_vut_madrid
+from .pipelines.match_registro_cam import (
+    augment_addresses,
+    generate_matchings_registro,
+    match_registro_cam,
+)
 
 
 def register_pipelines() -> dict[str, Pipeline]:
@@ -87,6 +92,25 @@ def register_pipelines() -> dict[str, Pipeline]:
                     func=fix_addresses,
                     inputs="registro_cam_filled",
                     outputs="registro_cam",
+                ),
+            ]
+        ),
+        "generate_matchings_registro_cam": make_pipeline(
+            [
+                node(
+                    func=augment_addresses,
+                    inputs="callejero",
+                    outputs="callejero_augmented",
+                ),
+                node(
+                    func=match_registro_cam,
+                    inputs=["registro_cam", "callejero_augmented"],
+                    outputs="matchings_registro_full",
+                ),
+                node(
+                    func=generate_matchings_registro,
+                    inputs="matchings_registro_full",
+                    outputs="matchings_registro",
                 ),
             ]
         ),

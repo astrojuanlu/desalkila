@@ -57,3 +57,11 @@ vut_madrid_raw:
   credentials: delta_lake
   storage_options: ${globals:delta_storage_options}
   save_args: ${_vut_madrid_save_args}
+
+matchings_registro:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://matchings/silver/matchings_registro
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
