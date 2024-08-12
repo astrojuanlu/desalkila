@@ -3,6 +3,7 @@ from kedro.pipeline import pipeline as make_pipeline
 
 from .pipelines.consolidate_callejero import fix_callejero, join_callejero
 from .pipelines.consolidate_registro_cam import fill_empty_addresses, fix_addresses
+from .pipelines.el_airbnb import preprocess_airbnb_madrid
 from .pipelines.el_barrios import preprocess_barrios
 from .pipelines.el_callejero import (
     preprocess_callejero_historico,
@@ -64,6 +65,15 @@ def register_pipelines() -> dict[str, Pipeline]:
                     func=preprocess_vut_madrid,
                     inputs="vut_madrid_source",
                     outputs="vut_madrid_raw",
+                )
+            ]
+        ),
+        "el_airbnb_madrid": make_pipeline(
+            [
+                node(
+                    func=preprocess_airbnb_madrid,
+                    inputs="airbnb_madrid_source",
+                    outputs="airbnb_madrid_raw",
                 )
             ]
         ),

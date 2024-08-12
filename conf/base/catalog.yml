@@ -65,3 +65,11 @@ matchings_registro:
   storage_options: ${globals:delta_storage_options}
   save_args:
     mode: overwrite
+
+airbnb_madrid_raw:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://airbnb/bronze/airbnb_madrid_raw
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite

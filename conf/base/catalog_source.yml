@@ -38,3 +38,16 @@ vut_madrid_source:
   filepath: https://geoportal.madrid.es/fsdescargas/IDEAM_WBGEOPORTAL/VIVIENDA/VIVIENDAS_TURISTICAS/VIVIENDAS_USO_TURISTICO.zip
   metadata:
     source: https://geoportal.madrid.es/IDEAM_WBGEOPORTAL/dataset.iam?id=efa31be4-1439-11ef-a86b-3024a94b329d
+
+airbnb_madrid_source:
+  type: desalkila.datasets.SimplePolarsCSVDataset
+  filepath: https://data.insideairbnb.com/spain/comunidad-de-madrid/madrid/2024-06-15/data/listings.csv.gz
+  load_args:
+    schema_overrides:
+      last_scraped: ${pl:Date}
+      host_since: ${pl:Date}
+      calendar_last_scraped: ${pl:Date}
+      first_review: ${pl:Date}
+      last_review: ${pl:Date}
+  metadata:
+    source: https://insideairbnb.com/get-the-data/
