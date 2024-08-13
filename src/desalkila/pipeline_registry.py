@@ -1,6 +1,12 @@
 from kedro.pipeline import Pipeline, node
 from kedro.pipeline import pipeline as make_pipeline
 
+from .pipelines.consolidate_airbnb import (
+    compute_approximate_locations,
+    fix_registro_cam,
+    parse_licenses,
+    separate_hosts,
+)
 from .pipelines.consolidate_callejero import fix_callejero, join_callejero
 from .pipelines.consolidate_registro_cam import fill_empty_addresses, fix_addresses
 from .pipelines.el_airbnb import preprocess_airbnb_madrid
@@ -102,6 +108,30 @@ def register_pipelines() -> dict[str, Pipeline]:
                     func=fix_addresses,
                     inputs="registro_cam_filled",
                     outputs="registro_cam",
+                ),
+            ]
+        ),
+        "consolidate_airbnb": make_pipeline(
+            [
+                node(
+                    func=separate_hosts,
+                    inputs="airbnb_madrid_raw",
+                    outputs=["airbnb_madrid_only_properties", "airbnb_madrid_hosts"],
+                ),
+                node(
+                    func=compute_approximate_locations,
+                    inputs="airbnb_madrid_only_properties",
+                    outputs="airbnb_madrid_with_locations",
+                ),
+                node(
+                    func=parse_licenses,
+                    inputs="airbnb_madrid_with_locations",
+                    outputs="airbnb_madrid_with_licenses",
+                ),
+                node(
+                    func=fix_registro_cam,
+                    inputs="airbnb_madrid_with_licenses",
+                    outputs="airbnb_madrid",
                 ),
             ]
         ),
