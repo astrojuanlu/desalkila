@@ -70,28 +70,40 @@ class PolarsDeltaDataset(AbstractDataset[pl.DataFrame, pl.DataFrame]):
         )
 
     def _save(self, data: pl.DataFrame) -> None:
-        # https://github.com/delta-io/delta-rs/issues/2662
-        dt = try_get_deltatable(self._filepath, storage_options=self._storage_options)
-
-        if (self._save_args.get("mode") == "merge") and dt is not None:
-            if not self._merge_predicate:
-                raise ValueError("Missing `merge_predicate` for merge mode")
-
-            (
+        if self._save_args.get("mode") == "merge":
+            # https://github.com/delta-io/delta-rs/issues/2662
+            dt = try_get_deltatable(
+                self._filepath, storage_options=self._storage_options
+            )
+            if dt is None:
+                # Table does not exist yet, write it for the first time without merge
+                no_merge_save_args = self._save_args.copy()
+                no_merge_save_args.pop("mode")
                 data.write_delta(
                     self._filepath,
                     storage_options=self._storage_options,
-                    delta_merge_options={
-                        "predicate": self._merge_predicate,
-                        "source_alias": "s",
-                        "target_alias": "t",
-                    },
-                    **self._save_args,
+                    **no_merge_save_args,
                 )
-                .when_matched_update_all()
-                .when_not_matched_insert_all()
-                .execute()
-            )
+            else:
+                if not self._merge_predicate:
+                    raise ValueError("Missing `merge_predicate` for merge mode")
+
+                # Merge table normally
+                (
+                    data.write_delta(
+                        self._filepath,
+                        storage_options=self._storage_options,
+                        delta_merge_options={
+                            "predicate": self._merge_predicate,
+                            "source_alias": "s",
+                            "target_alias": "t",
+                        },
+                        **self._save_args,
+                    )
+                    .when_matched_update_all()
+                    .when_not_matched_insert_all()
+                    .execute()
+                )
         else:
             data.write_delta(
                 self._filepath, storage_options=self._storage_options, **self._save_args
