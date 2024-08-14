@@ -73,3 +73,12 @@ airbnb_madrid_raw:
   storage_options: ${globals:delta_storage_options}
   save_args:
     mode: overwrite
+
+matchings_hosts_business:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://airbnb/silver/matchings_hosts_business
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: merge
+    merge_predicate: "s.host_id = t.host_id"
