@@ -7,7 +7,11 @@ from .pipelines.consolidate_airbnb import (
     parse_licenses,
     separate_hosts,
 )
-from .pipelines.consolidate_callejero import fix_callejero, join_callejero
+from .pipelines.consolidate_callejero import (
+    compute_location,
+    fix_callejero,
+    join_callejero,
+)
 from .pipelines.consolidate_registro_cam import fill_empty_addresses, fix_addresses
 from .pipelines.el_airbnb import preprocess_airbnb_madrid
 from .pipelines.el_barrios import preprocess_barrios
@@ -96,6 +100,11 @@ def register_pipelines() -> dict[str, Pipeline]:
                 node(
                     func=fix_callejero,
                     inputs="callejero_joined",
+                    outputs="callejero_fixed",
+                ),
+                node(
+                    func=compute_location,
+                    inputs="callejero_fixed",
                     outputs="callejero",
                 ),
             ]

@@ -1,3 +1,4 @@
+import geopandas
 import polars as pl
 
 VIA_NAME_REPLACEMENTS = {
@@ -55,3 +56,17 @@ def fix_callejero(df: pl.DataFrame) -> pl.DataFrame:
 
     """
     return df.with_columns(pl.col("VIA_NOMBRE_ACENTOS").replace(VIA_NAME_REPLACEMENTS))
+
+
+def compute_location(df: pl.DataFrame) -> pl.DataFrame:
+    locations = geopandas.GeoSeries.from_xy(
+        x=df["UTMX_ETRS"], y=df["UTMY_ETRS"], crs="EPSG:25830"
+    )
+
+    df = (
+        df.with_columns(pl.Series("location_epsg_25830", locations.to_wkb()))
+        # We get rid of X, Y, latitude, longitude,
+        # since they are encoded in the geometry column
+        .select(pl.all().exclude("UTMX_ETRS", "UTMY_ETRS", "LATITUD", "LONGITUD"))
+    )
+    return df
