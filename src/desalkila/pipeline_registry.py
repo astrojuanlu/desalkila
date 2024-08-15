@@ -13,6 +13,7 @@ from .pipelines.consolidate_callejero import (
     join_callejero,
 )
 from .pipelines.consolidate_registro_cam import fill_empty_addresses, fix_addresses
+from .pipelines.consolidate_vut_madrid import strip_redundant_data
 from .pipelines.el_airbnb import preprocess_airbnb_madrid
 from .pipelines.el_barrios import preprocess_barrios
 from .pipelines.el_callejero import (
@@ -121,6 +122,15 @@ def register_pipelines() -> dict[str, Pipeline]:
                     inputs="registro_cam_filled",
                     outputs="registro_cam",
                 ),
+            ]
+        ),
+        "consolidate_vut_madrid": make_pipeline(
+            [
+                node(
+                    func=strip_redundant_data,
+                    inputs="vut_madrid_raw",
+                    outputs="vut_madrid",
+                )
             ]
         ),
         "consolidate_airbnb": make_pipeline(

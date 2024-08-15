@@ -22,7 +22,13 @@ registro_cam:
   save_args:
     mode: overwrite
 
-# vut_madrid  # Not needed yet
+vut_madrid:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://vut-madrid/silver/vut_madrid
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
 
 airbnb_madrid:
   type: desalkila.datasets.PolarsDeltaDataset
