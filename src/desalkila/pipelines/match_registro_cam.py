@@ -1,6 +1,11 @@
 import polars as pl
 import polars.selectors as cs
 
+FULL_ADDRESS_COL_NAME = "_direccion_full"
+POSTAL_CODE_COL_NAME = "_cod_postal"
+
+MATCHING_TYPE_COL_NAME = "matching_type"
+
 
 def augment_addresses(df_callejero: pl.DataFrame) -> pl.DataFrame:
     # Algunas direcciones solo existen con `CALIFICADOR``,
@@ -13,6 +18,7 @@ def augment_addresses(df_callejero: pl.DataFrame) -> pl.DataFrame:
 
     # Además, para aumentar la probabilidad de éxito,
     # generamos direcciones extra probando todas las partículas a lo bruto
+    # asumiendo que en un mismo código postal no habrá dos vías con mismo nombre
     # (aproximadamente 1 millón de filas)
 
     # Este paso ayuda a ubicar más de 980 registros
@@ -57,19 +63,26 @@ def augment_addresses(df_callejero: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def match_registro_cam(
-    df_registro: pl.DataFrame, df_callejero: pl.DataFrame
+def prepare_registro(
+    df: pl.DataFrame,
+    full_address_col_name: str = FULL_ADDRESS_COL_NAME,
+    postal_code_col_name: str = POSTAL_CODE_COL_NAME,
 ) -> pl.DataFrame:
-    df_registro_prep = df_registro.with_columns(
+    return df.with_columns(
         (pl.col("via_tipo") + " " + pl.col("via_nombre") + " " + pl.col("numero"))
         .str.to_lowercase()
-        .alias("_via_full"),
-        pl.col("cdpostal").alias("_cod_postal"),
+        .alias(full_address_col_name),
+        pl.col("cdpostal").alias(postal_code_col_name),
     )
 
-    df_callejero_prep = (
-        df_callejero.with_columns(
-            # Reassemble address in 1 string
+
+def prepare_callejero(
+    df: pl.DataFrame,
+    full_address_col_name: str = FULL_ADDRESS_COL_NAME,
+    postal_code_col_name: str = POSTAL_CODE_COL_NAME,
+) -> pl.DataFrame:
+    df = (
+        df.with_columns(
             (
                 pl.when(pl.col("VIA_PAR").is_null())
                 .then(
@@ -90,16 +103,15 @@ def match_registro_cam(
                 )
             )
             .str.to_lowercase()
-            .alias("_via_full"),
-            pl.col("COD_POSTAL").alias("_cod_postal"),
+            .alias(full_address_col_name),
+            pl.col("COD_POSTAL").alias(postal_code_col_name),
         )
         .with_columns(
             pl.when(pl.col("CALIFICADOR").is_null())
-            .then(pl.col("_via_full"))
-            .otherwise(
-                pl.col("_via_full") + " " + pl.col("CALIFICADOR").str.to_lowercase()
-            )
-            .alias("_via_full")
+            .then(pl.col(full_address_col_name))
+            .otherwise(pl.col(full_address_col_name) + " " + pl.col("CALIFICADOR"))
+            .str.to_lowercase()
+            .alias(full_address_col_name)
         )
         .select(
             cs.starts_with("VIA_"),
@@ -107,27 +119,66 @@ def match_registro_cam(
             "NÚMERO",
             "CALIFICADOR",
             "TIPO_NDP",
-            "_via_full",
-            "_cod_postal",
+            FULL_ADDRESS_COL_NAME,
+            POSTAL_CODE_COL_NAME,
         )
-    )
-
-    df = (
-        df_registro_prep.join(
-            df_callejero_prep,
-            on=[
-                "_via_full",
-                # Sometimes postal code is empty!
-                # "_cod_postal",
-            ],
-            how="left",
-        )
-        # Leave the merging fields for debugging purposes
-        # .select(pl.all().exclude("_via_full", "_cod_postal"))
     )
 
     return df
 
 
-def generate_matchings_registro(df: pl.DataFrame) -> pl.DataFrame:
-    return df.select("signatura", "COD_NDP")
+def match_registro_cam_exact(
+    df_registro_prep: pl.DataFrame,
+    df_callejero_prep: pl.DataFrame,
+) -> pl.DataFrame:
+    df = (
+        df_registro_prep.drop_nulls("cdpostal")
+        .join(
+            df_callejero_prep.drop_nulls("COD_POSTAL"),
+            on=[
+                FULL_ADDRESS_COL_NAME,
+                POSTAL_CODE_COL_NAME,
+            ],
+            how="inner",
+        )
+        .with_columns(pl.lit("exact").alias(MATCHING_TYPE_COL_NAME))
+    )
+
+    return df
+
+
+def match_registro_cam_no_postal_code(
+    df_registro_prep: pl.DataFrame,
+    df_callejero_prep: pl.DataFrame,
+    df_matchings_exact: pl.DataFrame,
+) -> pl.DataFrame:
+    df = (
+        df_registro_prep.join(
+            df_matchings_exact,
+            on="signatura",
+            how="anti",
+        )
+        .join(
+            df_callejero_prep,
+            on=[
+                FULL_ADDRESS_COL_NAME,
+            ],
+            how="inner",
+        )
+        .with_columns(pl.lit("no_postal_code").alias(MATCHING_TYPE_COL_NAME))
+    )
+
+    return df
+
+
+def consolidate_matchings_registro(
+    df_exact: pl.DataFrame, df_no_postal_code: pl.DataFrame
+) -> pl.DataFrame:
+    df = pl.concat(
+        [
+            df_exact.select("signatura", "COD_NDP", MATCHING_TYPE_COL_NAME),
+            df_no_postal_code.select("signatura", "COD_NDP", MATCHING_TYPE_COL_NAME),
+        ]
+    ).sort(by=pl.col("signatura").str.split("-").list.get(1).cast(pl.Int64))
+
+    return df

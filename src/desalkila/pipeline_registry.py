@@ -19,8 +19,11 @@ from .pipelines.el_registro_cam import preprocess_registro_cam
 from .pipelines.el_vut_madrid import preprocess_vut_madrid
 from .pipelines.match_registro_cam import (
     augment_addresses,
-    generate_matchings_registro,
-    match_registro_cam,
+    consolidate_matchings_registro,
+    match_registro_cam_exact,
+    match_registro_cam_no_postal_code,
+    prepare_callejero,
+    prepare_registro,
 )
 
 
@@ -143,14 +146,37 @@ def register_pipelines() -> dict[str, Pipeline]:
                     outputs="callejero_augmented",
                 ),
                 node(
-                    func=match_registro_cam,
-                    inputs=["registro_cam", "callejero_augmented"],
-                    outputs="matchings_registro_full",
+                    func=prepare_callejero,
+                    inputs="callejero_augmented",
+                    outputs="callejero_augmented_prepared",
                 ),
                 node(
-                    func=generate_matchings_registro,
-                    inputs="matchings_registro_full",
+                    func=prepare_registro,
+                    inputs="registro_cam",
+                    outputs="registro_cam_prepared",
+                ),
+                node(
+                    func=match_registro_cam_exact,
+                    inputs=["registro_cam_prepared", "callejero_augmented_prepared"],
+                    outputs="matchings_registro_exact",
+                ),
+                node(
+                    func=match_registro_cam_no_postal_code,
+                    inputs=[
+                        "registro_cam_prepared",
+                        "callejero_augmented_prepared",
+                        "matchings_registro_exact",
+                    ],
+                    outputs="matchings_registro_no_postal_code",
+                ),
+                node(
+                    func=consolidate_matchings_registro,
+                    inputs=[
+                        "matchings_registro_exact",
+                        "matchings_registro_no_postal_code",
+                    ],
                     outputs="matchings_registro",
+                    name="consolidate_matchings_registro_node",
                 ),
             ]
         ),
