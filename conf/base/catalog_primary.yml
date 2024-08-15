@@ -24,4 +24,10 @@ registro_cam:
 
 # vut_madrid  # Not needed yet
 
-# airbnb_madrid  # FIXME: Define
+airbnb_madrid:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://airbnb/silver/airbnb_madrid
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite

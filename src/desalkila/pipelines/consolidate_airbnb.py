@@ -32,7 +32,9 @@ def compute_approximate_locations(df: pl.DataFrame) -> pl.DataFrame:
     )
 
     df = (
-        df.with_columns(pl.Series("approximate_location", locations.to_wkb()))
+        df.with_columns(
+            pl.Series("approximate_location_epsg_25830", locations.to_wkb())
+        )
         # We get rid of longitude and latitude,
         # since they are approximate anyway
         .select(pl.all().exclude("longitude", "latitude"))
