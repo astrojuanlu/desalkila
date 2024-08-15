@@ -1,0 +1,27 @@
+callejero:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://callejero/silver/callejero
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
+
+barrios:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://barrios/barrios
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
+
+registro_cam:
+  type: desalkila.datasets.PolarsDeltaDataset
+  filepath: s3://registro-cam/silver/registro_cam
+  credentials: delta_lake
+  storage_options: ${globals:delta_storage_options}
+  save_args:
+    mode: overwrite
+
+# vut_madrid  # Not needed yet
+
+# airbnb_madrid  # FIXME: Define
