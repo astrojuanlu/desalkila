@@ -61,6 +61,17 @@ Estos datos se pueden visualizar en http://desalkila.madrid
 
 ![Mapa de viviendas turísticas de Madrid](static/desalkila-madrid.png)
 
+## Camiseta
+
+Puedes adquirir la camiseta de "SE ANIQUILA" en [la tienda online de Sistema de Monos](https://sistemademonos.com/Tienda).
+
+![Camiseta "SE ANIQUILA"](static/se-aniquila.jpg)
+
+El diseño y la serigrafía son de [Hola Por Qué](https://holaporque.com/), una entidad de la Economía Solidaria
+que forma parte del [Mercado Social de Madrid](https://www.mercadosocial.madrid/).
+
+Si quieres saber más, mira [mi charla "Python para un mundo mejor: informe desde la trinchera" de la PyConES 2023](https://www.youtube.com/watch?v=teVqkugbBDI) ([diapositivas](https://speakerdeck.com/astrojuanlu/python-para-un-mundo-mejor-informe-desde-la-trinchera)).
+
 ## Manifestación 13 de octubre de 2024
 
 > Madrid tomará las calles el próximo 13-O bajo el lema “Se acabó: bajemos los alquileres”,
