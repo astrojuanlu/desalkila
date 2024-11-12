@@ -5,6 +5,7 @@ build-backend = "pdm.backend"
 [project]
 name = "desalkila"
 readme = "README.md"
+version = "0.1.dev0"
 requires-python = ">=3.12"
 license = {file = "LICENSE"}
 description = "(TBC)"
@@ -27,7 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
 ]
-dynamic = ["version"]
+# dynamic = ["version"]
 
 [project.urls]
 source = "https://github.com/astrojuanlu/desalkila"
@@ -48,8 +49,8 @@ doc = [
     "sphinx-copybutton",
 ]
 
-[tool.pdm.version]
-source = "scm"
+# [tool.pdm.version]
+# source = "scm"
 
 [tool.ruff]
 show-fixes = true
