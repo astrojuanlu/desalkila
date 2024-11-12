@@ -10,23 +10,42 @@ antlr4-python3-runtime==4.9.3
     #   omegaconf
 anyio==3.7.1
     # via
+    #   httpx
+    #   jupyter-server
     #   starlette
     #   watchfiles
     #   watchgod
+appnope==0.1.4 ; platform_system == 'Darwin'
+    # via ipykernel
+argon2-cffi==23.1.0
+    # via jupyter-server
+argon2-cffi-bindings==21.2.0
+    # via argon2-cffi
 arrow==1.3.0
     # via
     #   -c requirements.txt
     #   cookiecutter
+    #   isoduration
 asttokens==2.4.1
     # via stack-data
+async-lru==2.0.4
+    # via jupyterlab
 attrs==23.2.0
     # via
     #   -c requirements.txt
+    #   jsonschema
     #   kedro
+    #   referencing
+babel==2.16.0
+    # via jupyterlab-server
+beautifulsoup4==4.12.3
+    # via nbconvert
 binaryornot==0.4.4
     # via
     #   -c requirements.txt
     #   cookiecutter
+bleach==6.2.0
+    # via nbconvert
 build==1.2.1
     # via
     #   -c requirements.txt
@@ -38,7 +57,13 @@ cachetools==5.4.0
 certifi==2024.7.4
     # via
     #   -c requirements.txt
+    #   httpcore
+    #   httpx
     #   requests
+cffi==1.17.1
+    # via
+    #   argon2-cffi-bindings
+    #   pyzmq
 chardet==5.2.0
     # via
     #   -c requirements.txt
@@ -56,19 +81,25 @@ click==8.1.7
     #   uvicorn
 click-default-group==1.2.4
     # via kedro-viz
-colorama==0.4.6 ; os_name == 'nt' or platform_system == 'Windows' or sys_platform == 'win32'
+colorama==0.4.6 ; (platform_system != 'Windows' and sys_platform == 'win32') or platform_system == 'Windows' or os_name == 'nt'
     # via
     #   -c requirements.txt
     #   build
     #   click
     #   ipython
     #   uvicorn
+comm==0.2.2
+    # via ipykernel
 cookiecutter==2.6.0
     # via
     #   -c requirements.txt
     #   kedro
+debugpy==1.8.8
+    # via ipykernel
 decorator==5.1.1
     # via ipython
+defusedxml==0.7.1
+    # via nbconvert
 dynaconf==3.2.5
     # via
     #   -c requirements.txt
@@ -77,6 +108,10 @@ executing==2.0.1
     # via stack-data
 fastapi==0.112.0
     # via kedro-viz
+fastjsonschema==2.20.0
+    # via nbformat
+fqdn==1.5.1
+    # via jsonschema
 fsspec==2024.6.1
     # via
     #   -c requirements.txt
@@ -92,18 +127,26 @@ gitpython==3.1.43
     #   kedro
 graphql-core==3.2.3
     # via strawberry-graphql
-greenlet==3.0.3 ; python_version < '3.13' and (platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'WIN32' or platform_machine == 'win32'))))))
+greenlet==3.0.3 ; (python_full_version < '3.13' and platform_machine == 'AMD64') or (python_full_version < '3.13' and platform_machine == 'WIN32') or (python_full_version < '3.13' and platform_machine == 'aarch64') or (python_full_version < '3.13' and platform_machine == 'amd64') or (python_full_version < '3.13' and platform_machine == 'ppc64le') or (python_full_version < '3.13' and platform_machine == 'win32') or (python_full_version < '3.13' and platform_machine == 'x86_64')
     # via sqlalchemy
 h11==0.14.0
-    # via uvicorn
+    # via
+    #   httpcore
+    #   uvicorn
+httpcore==1.0.6
+    # via httpx
 httptools==0.6.1
     # via uvicorn
+httpx==0.27.2
+    # via jupyterlab
 idna==3.7
     # via
     #   -c requirements.txt
     #   anyio
+    #   httpx
+    #   jsonschema
     #   requests
-importlib-metadata==7.2.1 ; python_version >= '3.8'
+importlib-metadata==7.2.1
     # via
     #   -c requirements.txt
     #   kedro
@@ -111,16 +154,71 @@ importlib-resources==6.4.0
     # via
     #   -c requirements.txt
     #   kedro
+ipykernel==6.29.5
+    # via jupyterlab
 ipython==8.26.0
     # via
     #   -r dev-requirements.in
+    #   ipykernel
     #   kedro-viz
+isoduration==20.11.0
+    # via jsonschema
 jedi==0.19.1
     # via ipython
 jinja2==3.1.4
     # via
     #   -c requirements.txt
     #   cookiecutter
+    #   jupyter-server
+    #   jupyterlab
+    #   jupyterlab-server
+    #   nbconvert
+json5==0.9.28
+    # via jupyterlab-server
+jsonpointer==3.0.0
+    # via jsonschema
+jsonschema==4.23.0
+    # via
+    #   jupyter-events
+    #   jupyterlab-server
+    #   nbformat
+jsonschema-specifications==2024.10.1
+    # via jsonschema
+jupyter-client==8.6.3
+    # via
+    #   ipykernel
+    #   jupyter-server
+    #   nbclient
+jupyter-core==5.7.2
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   jupyterlab
+    #   nbclient
+    #   nbconvert
+    #   nbformat
+jupyter-events==0.10.0
+    # via jupyter-server
+jupyter-lsp==2.2.5
+    # via jupyterlab
+jupyter-server==2.14.2
+    # via
+    #   jupyter-lsp
+    #   jupyterlab
+    #   jupyterlab-server
+    #   notebook
+    #   notebook-shim
+jupyter-server-terminals==0.5.3
+    # via jupyter-server
+jupyterlab==4.2.5
+    # via notebook
+jupyterlab-pygments==0.3.0
+    # via nbconvert
+jupyterlab-server==2.27.3
+    # via
+    #   jupyterlab
+    #   notebook
 kedro==0.19.6
     # via
     #   -c requirements.txt
@@ -135,18 +233,40 @@ markupsafe==2.1.5
     # via
     #   -c requirements.txt
     #   jinja2
+    #   nbconvert
 matplotlib-inline==0.1.7
-    # via ipython
+    # via
+    #   ipykernel
+    #   ipython
 mdurl==0.1.2
     # via
     #   -c requirements.txt
     #   markdown-it-py
+mistune==3.0.2
+    # via nbconvert
 more-itertools==10.3.0
     # via
     #   -c requirements.txt
     #   kedro
+nbclient==0.10.0
+    # via nbconvert
+nbconvert==7.16.4
+    # via jupyter-server
+nbformat==5.10.4
+    # via
+    #   jupyter-server
+    #   nbclient
+    #   nbconvert
+nest-asyncio==1.6.0
+    # via ipykernel
 networkx==3.3
     # via kedro-viz
+notebook==7.2.2
+    # via -r dev-requirements.in
+notebook-shim==0.2.4
+    # via
+    #   jupyterlab
+    #   notebook
 numpy==2.0.0
     # via
     #   -c requirements.txt
@@ -157,17 +277,26 @@ omegaconf==2.3.0
     #   kedro
 orjson==3.10.6
     # via kedro-viz
+overrides==7.7.0
+    # via jupyter-server
 packaging==24.1
     # via
     #   -c requirements.txt
     #   build
+    #   ipykernel
+    #   jupyter-server
+    #   jupyterlab
+    #   jupyterlab-server
     #   kedro-viz
+    #   nbconvert
     #   plotly
     #   pytoolconfig
 pandas==2.2.2
     # via
     #   -c requirements.txt
     #   kedro-viz
+pandocfilters==1.5.1
+    # via nbconvert
 parse==1.20.2
     # via
     #   -c requirements.txt
@@ -179,6 +308,7 @@ pexpect==4.9.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
 platformdirs==4.2.2
     # via
     #   -c requirements.txt
+    #   jupyter-core
     #   pytoolconfig
 plotly==5.23.0
     # via kedro-viz
@@ -190,12 +320,20 @@ pre-commit-hooks==4.6.0
     # via
     #   -c requirements.txt
     #   kedro
+prometheus-client==0.21.0
+    # via jupyter-server
 prompt-toolkit==3.0.47
     # via ipython
-ptyprocess==0.7.0 ; sys_platform != 'emscripten' and sys_platform != 'win32'
-    # via pexpect
+psutil==6.1.0
+    # via ipykernel
+ptyprocess==0.7.0 ; os_name != 'nt' or (sys_platform != 'emscripten' and sys_platform != 'win32')
+    # via
+    #   pexpect
+    #   terminado
 pure-eval==0.2.3
     # via stack-data
+pycparser==2.22
+    # via cffi
 pydantic==2.8.2
     # via
     #   fastapi
@@ -206,6 +344,7 @@ pygments==2.18.0
     # via
     #   -c requirements.txt
     #   ipython
+    #   nbconvert
     #   rich
 pyproject-hooks==1.1.0
     # via
@@ -215,10 +354,13 @@ python-dateutil==2.9.0.post0
     # via
     #   -c requirements.txt
     #   arrow
+    #   jupyter-client
     #   pandas
     #   strawberry-graphql
 python-dotenv==1.0.1
     # via uvicorn
+python-json-logger==2.0.7
+    # via jupyter-events
 python-slugify==8.0.4
     # via
     #   -c requirements.txt
@@ -231,17 +373,44 @@ pytz==2024.1
     # via
     #   -c requirements.txt
     #   pandas
+pywin32==308 ; platform_python_implementation != 'PyPy' and sys_platform == 'win32'
+    # via jupyter-core
+pywinpty==2.0.14 ; os_name == 'nt'
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
+    #   terminado
 pyyaml==6.0.1
     # via
     #   -c requirements.txt
     #   cookiecutter
+    #   jupyter-events
     #   kedro
     #   omegaconf
     #   uvicorn
+pyzmq==26.2.0
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+referencing==0.35.1
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
+    #   jupyter-events
 requests==2.32.3
     # via
     #   -c requirements.txt
     #   cookiecutter
+    #   jupyterlab-server
+rfc3339-validator==0.1.4
+    # via
+    #   jsonschema
+    #   jupyter-events
+rfc3986-validator==0.1.1
+    # via
+    #   jsonschema
+    #   jupyter-events
 rich==13.7.1
     # via
     #   -c requirements.txt
@@ -251,27 +420,40 @@ rope==1.13.0
     # via
     #   -c requirements.txt
     #   kedro
+rpds-py==0.21.0
+    # via
+    #   jsonschema
+    #   referencing
 ruamel-yaml==0.18.6
     # via
     #   -c requirements.txt
     #   pre-commit-hooks
-ruamel-yaml-clib==0.2.8 ; python_version < '3.13' and platform_python_implementation == 'CPython'
+ruamel-yaml-clib==0.2.8 ; python_full_version < '3.13' and platform_python_implementation == 'CPython'
     # via
     #   -c requirements.txt
     #   ruamel-yaml
 secure==0.3.0
     # via kedro-viz
+send2trash==1.8.3
+    # via jupyter-server
+setuptools==75.4.0
+    # via jupyterlab
 six==1.16.0
     # via
     #   -c requirements.txt
     #   asttokens
     #   python-dateutil
+    #   rfc3339-validator
 smmap==5.0.1
     # via
     #   -c requirements.txt
     #   gitdb
 sniffio==1.3.1
-    # via anyio
+    # via
+    #   anyio
+    #   httpx
+soupsieve==2.6
+    # via beautifulsoup4
 sqlalchemy==2.0.31
     # via kedro-viz
 stack-data==0.6.3
@@ -282,18 +464,42 @@ strawberry-graphql==0.237.3
     # via kedro-viz
 tenacity==9.0.0
     # via plotly
+terminado==0.18.1
+    # via
+    #   jupyter-server
+    #   jupyter-server-terminals
 text-unidecode==1.3
     # via
     #   -c requirements.txt
     #   python-slugify
+tinycss2==1.4.0
+    # via nbconvert
 toml==0.10.2
     # via
     #   -c requirements.txt
     #   kedro
+tornado==6.4.1
+    # via
+    #   ipykernel
+    #   jupyter-client
+    #   jupyter-server
+    #   jupyterlab
+    #   notebook
+    #   terminado
 traitlets==5.14.3
     # via
+    #   comm
+    #   ipykernel
     #   ipython
+    #   jupyter-client
+    #   jupyter-core
+    #   jupyter-events
+    #   jupyter-server
+    #   jupyterlab
     #   matplotlib-inline
+    #   nbclient
+    #   nbconvert
+    #   nbformat
 types-python-dateutil==2.9.0.20240316
     # via
     #   -c requirements.txt
@@ -309,13 +515,15 @@ tzdata==2024.1
     # via
     #   -c requirements.txt
     #   pandas
+uri-template==1.3.0
+    # via jsonschema
 urllib3==2.2.2
     # via
     #   -c requirements.txt
     #   requests
 uvicorn==0.30.5
     # via kedro-viz
-uvloop==0.19.0 ; sys_platform != 'win32' and (platform_python_implementation != 'PyPy' and sys_platform != 'cygwin')
+uvloop==0.19.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
     # via uvicorn
 watchfiles==0.22.0
     # via uvicorn
@@ -323,9 +531,17 @@ watchgod==0.8.2
     # via kedro-viz
 wcwidth==0.2.13
     # via prompt-toolkit
+webcolors==24.11.1
+    # via jsonschema
+webencodings==0.5.1
+    # via
+    #   bleach
+    #   tinycss2
+websocket-client==1.8.0
+    # via jupyter-server
 websockets==12.0
     # via uvicorn
-zipp==3.19.2 ; python_version >= '3.8'
+zipp==3.19.2
     # via
     #   -c requirements.txt
     #   importlib-metadata
