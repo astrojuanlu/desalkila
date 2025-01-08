@@ -8,10 +8,8 @@ async function initializeMap() {
   try {
     // Load and convert GeoParquet file
     const url = "https://raw.githubusercontent.com/astrojuanlu/desalkila/refs/heads/app/app/public/registry_cam_no_vuts_simple.geoparquet";
-    const data = await asyncBufferFromUrl({ url });
-    console.log(data);
-    const geojson = await toGeoJson({ data });
-    console.log(geojson);
+    const file = await asyncBufferFromUrl({ url });
+    const geojson = await toGeoJson({ file });
 
     const map = new maplibregl.Map({
       container: "map",

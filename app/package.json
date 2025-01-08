@@ -7,6 +7,7 @@
     "dev": "vite dev",
     "build": "vite build"
   },
+  "type": "module",
   "dependencies": {
     "@deck.gl/core": "^9.0.0",
     "@deck.gl/layers": "^9.0.0",
