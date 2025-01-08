@@ -1,9 +1,18 @@
 import { MapboxOverlay } from "@deck.gl/mapbox";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import maplibregl from "maplibre-gl";
-import { asyncBufferFromUrl } from "hyparquet";
+import { asyncBufferFromUrl, parquetMetadataAsync } from "hyparquet";
 import { toGeoJson } from "geoparquet";
 import proj4 from "proj4";
+import Converter from "projjson-to-wkt";
+
+async function getSourceCrs(file) {
+  const metadata = await parquetMetadataAsync(file);
+  const geoMetadata = JSON.parse(
+    metadata.key_value_metadata?.find((kv) => kv.key === "geo").value,
+  );
+  return Converter.toWkt1(geoMetadata.columns.geometry.crs);
+}
 
 async function initializeMap() {
   try {
@@ -11,6 +20,8 @@ async function initializeMap() {
     const url =
       "https://raw.githubusercontent.com/astrojuanlu/desalkila/refs/heads/app/app/public/registry_cam_no_vuts_simple.geoparquet";
     const file = await asyncBufferFromUrl({ url });
+    const sourceCrs = await getSourceCrs(file);
+
     var geojson = await toGeoJson({ file });
     geojson = {
       type: "FeatureCollection",
@@ -18,7 +29,7 @@ async function initializeMap() {
         const reprojectedGeometry = {
           type: feature.geometry.type,
           coordinates: proj4(
-            "+proj=utm +zone=30 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs",
+            sourceCrs,
             "EPSG:4326",
             feature.geometry.coordinates,
           ),
