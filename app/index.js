@@ -3,13 +3,29 @@ import { GeoJsonLayer } from "@deck.gl/layers";
 import maplibregl from "maplibre-gl";
 import { asyncBufferFromUrl } from "hyparquet";
 import { toGeoJson } from "geoparquet";
+import proj4 from "proj4";
 
 async function initializeMap() {
   try {
     // Load and convert GeoParquet file
-    const url = "https://raw.githubusercontent.com/astrojuanlu/desalkila/refs/heads/app/app/public/registry_cam_no_vuts_simple.geoparquet";
+    const url =
+      "https://raw.githubusercontent.com/astrojuanlu/desalkila/refs/heads/app/app/public/registry_cam_no_vuts_simple.geoparquet";
     const file = await asyncBufferFromUrl({ url });
-    const geojson = await toGeoJson({ file });
+    var geojson = await toGeoJson({ file });
+    geojson = {
+      type: "FeatureCollection",
+      features: geojson.features.map((feature) => {
+        const reprojectedGeometry = {
+          type: feature.geometry.type,
+          coordinates: proj4(
+            "+proj=utm +zone=30 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs",
+            "EPSG:4326",
+            feature.geometry.coordinates,
+          ),
+        };
+        return { ...feature, geometry: reprojectedGeometry };
+      }),
+    };
 
     const map = new maplibregl.Map({
       container: "map",
@@ -47,13 +63,13 @@ async function initializeMap() {
             data: geojson,
             filled: true,
             pointRadiusMinPixels: 8,
-            pointRadiusScale: 2000,
+            pointRadiusScale: 100,
             getPointRadius: 1,
             getFillColor: [255, 0, 0, 200], // Red dots
             pickable: true,
             onHover: ({ object }) => {
               if (object) {
-                console.log(object.properties.name);
+                console.log(object.properties);
               }
             },
           }),
