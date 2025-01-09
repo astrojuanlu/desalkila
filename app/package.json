@@ -12,11 +12,14 @@
     "@deck.gl/core": "^9.0.0",
     "@deck.gl/layers": "^9.0.0",
     "@deck.gl/mapbox": "^9.0.38",
+    "@geoarrow/deck.gl-layers": "^0.3.0-beta.17",
+    "@geoarrow/geoparquet-wasm": "^0.2.0-beta.5",
     "geoparquet": "^0.3.0",
     "hyparquet": "^1.8.0",
     "maplibre-gl": "^4.7.1",
     "proj4": "^2.15.0",
-    "projjson-to-wkt": "^0.1.0"
+    "projjson-to-wkt": "^0.1.0",
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -24,6 +27,8 @@
     "globals": "^15.14.0",
     "prettier": "3.4.2",
     "vite": "^4.0.0",
+    "vite-plugin-top-level-await": "^1.4.4",
+    "vite-plugin-wasm": "^3.4.1",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
   }
