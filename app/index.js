@@ -40,27 +40,7 @@ async function initializeMap() {
 
     const map = new maplibregl.Map({
       container: "map",
-      style: {
-        version: 8,
-        sources: {
-          osm: {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution: "&copy; OpenStreetMap Contributors",
-            maxzoom: 19,
-          },
-        },
-        layers: [
-          {
-            id: "osm",
-            type: "raster",
-            source: "osm",
-            minzoom: 0,
-            maxzoom: 19,
-          },
-        ],
-      },
+      style: 'https://tiles.openfreemap.org/styles/bright',
       center: [-3.7038, 40.4168], // Madrid
       zoom: 11,
     });
@@ -73,10 +53,10 @@ async function initializeMap() {
             id: "geojson-layer",
             data: geojson,
             filled: true,
-            pointRadiusMinPixels: 8,
-            pointRadiusScale: 100,
+            pointRadiusMinPixels: 4,
             getPointRadius: 1,
-            getFillColor: [255, 0, 0, 200], // Red dots
+            getFillColor: [235, 147, 96, 200],
+            getLineColor: [171, 102, 62],
             pickable: true,
             onHover: ({ object }) => {
               if (object) {
