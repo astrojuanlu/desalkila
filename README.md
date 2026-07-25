@@ -2,6 +2,10 @@
 
 **La vivienda es un derecho, no un negocio**
 
+Para entender el proyecto, mira [mi charla "¿Dónde están, que yo las vea? Mapeando 10.000 viviendas turísticas ilegales" en T3chFest 2025](https://t3chfest.es/2025/en/programa/donde-estan-mapeando-viviendas-turisticas-ilegales/).
+
+[![YouTube](https://i.ytimg.com/vi/9XV0m-tO9Qg/hqdefault.jpg)](https://www.youtube.com/watch?v=9XV0m-tO9Qg)
+
 ## Resumen
 
 > [!WARNING]
